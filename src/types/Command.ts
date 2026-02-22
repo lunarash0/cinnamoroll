@@ -1,4 +1,4 @@
-// src/types/Command.ts
+// types/Command.ts
 import { ChatInputCommandInteraction } from "discord.js";
 
 export interface Command {

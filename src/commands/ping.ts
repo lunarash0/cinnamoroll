@@ -1,3 +1,4 @@
+// commands/ping.ts
 import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 
 const command = {
@@ -11,7 +12,7 @@ const command = {
     const apiLatency = Math.round(interaction.client.ws.ping);
     const embed = new EmbedBuilder()
       .setColor(0xd7e5f2)
-      .setDescription(`*Bot Latency:* ${latency}ms\n*API Latency:* ${apiLatency}ms`);
+      .setDescription(`<:loading:1475242761895805099> *Bot Latency:* ${latency}ms\n<:loading:1475242761895805099> *API Latency:* ${apiLatency}ms`);
     await interaction.editReply({ content: "", embeds: [embed] });
   },
 };

@@ -1,3 +1,4 @@
+// index.ts
 import { Client, GatewayIntentBits, Collection, MessageFlags, REST, Routes } from "discord.js";
 import * as fs from "fs";
 import * as path from "path";
@@ -27,6 +28,7 @@ const client = new Client({
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.MessageContent,
+    GatewayIntentBits.GuildMessageReactions,
   ],
 });
 
@@ -98,6 +100,30 @@ client.on("interactionCreate", async (interaction) => {
     } else {
       await interaction.reply({ content: "There was an error executing this command.", flags: MessageFlags.Ephemeral });
     }
+  }
+});
+
+const PREFIX = ">";
+
+client.on("messageCreate", async (message) => {
+  if (message.author.bot || !message.content.startsWith(PREFIX)) return;
+
+  const args = message.content.slice(PREFIX.length).trim().split(/\s+/);
+  const commandName = args.shift()?.toLowerCase();
+
+  const command = client.prefixCommands.get(commandName ?? "");
+  if (!command) return;
+
+  try {
+    await message.react("<a:loading:1475242756958851204>");
+
+    await command.execute(message, args);
+
+      await message.reactions.removeAll();
+  } catch (error) {
+    console.error(error);
+    await message.reactions.removeAll();
+    await message.reply("There was an error executing this command.");
   }
 });
 
