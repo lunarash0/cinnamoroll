@@ -4,6 +4,7 @@ import * as fs from "fs";
 import * as path from "path";
 import * as dotenv from "dotenv";
 import { morning, mind } from "gradient-string";
+import { stringify } from "querystring";
 
 dotenv.config();
 
@@ -74,7 +75,7 @@ async function deploy() {
 
   const rest = new REST().setToken(token!);
   await rest.put(Routes.applicationCommands(clientId!), { body: commands });
-  console.log(mind(`Registered ${commands.length + client.prefixCommands.size} commands`));
+  console.log(mind(`Gave ${commands.length + client.prefixCommands.size} cinnamon rolls as tax to Discord`));
 }
 
 client.once("clientReady", (c) => {
@@ -82,11 +83,12 @@ client.once("clientReady", (c) => {
   console.log(morning(`Morning! Ready to give everyone a freshly baked cinnamon roll!`));
   
   // status
-
+  const guild = client.guilds.cache.get("1456351970234204274");
+  console.log(mind(guild!.memberCount.toString() + " members were waiting on me!"));
   c.user.setPresence({
     status: "online",
     activities: [{
-      name: "🔗 .gg/kindagay",
+      name: `🔗 .gg/kindagay | ${guild?.memberCount} mbrs`,
       type: ActivityType.Streaming,
       url: "https://twitch.tv/4_pug"
     }]
