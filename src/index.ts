@@ -1,5 +1,5 @@
 // index.ts
-import { Client, GatewayIntentBits, Collection, MessageFlags, REST, Routes } from "discord.js";
+import { Client, GatewayIntentBits, Collection, MessageFlags, REST, Routes, ActivityType } from "discord.js";
 import * as fs from "fs";
 import * as path from "path";
 import * as dotenv from "dotenv";
@@ -79,7 +79,18 @@ async function deploy() {
 
 client.once("clientReady", (c) => {
   console.log(`Logged in as ${c.user.tag}`);
-  console.log(morning(`Ready to give everyone a freshly baked cinnamon roll!`));
+  console.log(morning(`Morning! Ready to give everyone a freshly baked cinnamon roll!`));
+  
+  // status
+
+  c.user.setPresence({
+    status: "online",
+    activities: [{
+      name: "🔗 .gg/kindagay",
+      type: ActivityType.Streaming,
+      url: "https://twitch.tv/4_pug"
+    }]
+  })
 });
 
 client.on("interactionCreate", async (interaction) => {
